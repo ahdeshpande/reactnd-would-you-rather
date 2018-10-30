@@ -13,6 +13,27 @@ code {
     monospace;
 }
 
+/*Header*/
+.app__header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 900;
+    background: #fff;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .15)
+}
+
+.app__header__padding {
+    margin-top: 100px;
+}
+
+.app__header_content {
+    max-width: 1080px;
+    width: 80%;
+    margin: auto;
+}
+
 .outer__container {
     margin: auto;
     width: 60%;

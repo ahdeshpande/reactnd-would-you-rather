@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
+import Login from "./Login";
 
 class App extends Component {
     render() {
         return (
-            <h1>Would you rather?</h1>
+            <Login/>
         );
     }
 }

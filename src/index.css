@@ -12,3 +12,48 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.outer__container {
+    margin: auto;
+    width: 60%;
+    max-width: 1080px;
+}
+
+.tb__container {
+    border: none;
+    border-top: 8px solid #3f51b5;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.form {
+    margin: 20px;
+    max-width: 720px;
+}
+
+.form h3 {
+    background: #3f51b5;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+
+.shadow {
+    box-shadow: 0 12px 24px 0 rgba(38, 39, 41, .15)
+}
+
+.form__inner {
+    padding: 0 20px 20px 20px;
+}
+
+.form div div {
+    display: flex;
+    flex-grow: 1;
+}

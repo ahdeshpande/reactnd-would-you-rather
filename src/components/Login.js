@@ -2,15 +2,15 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button/Button";
-import {GoogleLogin} from "react-google-login";
-import FacebookLogin from "react-facebook-login";
+import {getCurrentUser, userLogin} from "../utils/_DB";
+import {Link} from "react-router-dom";
 
 class Login extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            username: '',
+            email: '',
             password: '',
         }
     }
@@ -26,34 +26,38 @@ class Login extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
-        // TODO: Authenticate User
+        const {email, password} = this.state;
 
+        userLogin(email, password)
+            .then((res) => {
+                localStorage.setItem("user", JSON.stringify(res.user));
+                if(getCurrentUser()) {
+                    this.props.redirectTo('/dashboard');
+                }
+            })
+            .catch(error => {
+                alert(error.message);
+            });
     };
 
     render() {
-        const responseGoogle = (response) => {
-            console.log(response);
-        };
-
-        const responseFacebook = (response) => {
-            console.log(response);
-        }
 
         return (
 
             <div className="outer__container">
                 <form className="form tb__container shadow" autoComplete="off"
-                      onSubmit={this.hadnleSubmit}>
-                    {/*<h3>Login</h3>*/}
+                      onSubmit={this.handleSubmit}>
+
                     <div className="form__inner">
                         <TextField
-                            required
-                            id="outlined-required"
-                            label="Username"
+                            id="email"
+                            label="Email"
+                            type="email"
+                            name="email"
+                            autoComplete="email"
                             margin="normal"
                             variant="outlined"
-                            name="username"
-                            value={this.state.username}
+                            value={this.state.email}
                             onChange={this.handleChange}
                         />
                         <TextField
@@ -69,9 +73,16 @@ class Login extends Component {
                             onChange={this.handleChange}
                         />
                         <br/>
-                        <Button color="primary" variant="contained">
+                        <Button color="primary" variant="contained"
+                                type="submit">
                             Login
                         </Button>
+                        <br/>
+                        <br/>
+                        Do not have an account? <Link to='/signup'>
+                            Sign up
+                        </Link>
+
                     </div>
                 </form>
             </div>
@@ -81,6 +92,8 @@ class Login extends Component {
     }
 }
 
-Login.propTypes = {};
+Login.propTypes = {
+    redirectTo: PropTypes.func.isRequired,
+};
 
 export default Login;

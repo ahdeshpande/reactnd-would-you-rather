@@ -29,6 +29,9 @@ code {
 }
 
 .app__header_content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     max-width: 1080px;
     width: 80%;
     margin: auto;

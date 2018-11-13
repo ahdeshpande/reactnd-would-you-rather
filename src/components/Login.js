@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button/Button";
 import {userLogin} from "../utils/_DB";
-import {DASHBOARD} from "../constants/routes";
+import {DASHBOARD, SIGN_UP} from "../constants/routes";
 import {setAuthedUser} from "../actions/authedUser";
 
 class Login extends Component {
@@ -81,7 +81,7 @@ class Login extends Component {
                         </Button>
                         <br/>
                         <br/>
-                        Do not have an account? <Link to='/signup'>
+                        Do not have an account? <Link to={SIGN_UP}>
                         Sign up
                     </Link>
 

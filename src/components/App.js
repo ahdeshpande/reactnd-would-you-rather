@@ -11,6 +11,8 @@ import {
     validateUser
 } from "../utils/_DB";
 import {DASHBOARD, LANDING, LOGIN, SIGN_UP} from "../constants/routes";
+import {handleInitialData} from "../actions/shared";
+import {connect} from "react-redux";
 
 class App extends Component {
 
@@ -22,14 +24,15 @@ class App extends Component {
         //     .catch(error => console.log(error))
     };
 
-    componentDidMount = () => {
-        // console.log(setAuthListener());
-        if (setAuthListener()) {
+    componentDidMount() {
+        this.props.dispatch(handleInitialData());
+        const {authedUser} = this.props;
+        if(authedUser) {
             this.redirectTo(DASHBOARD);
         } else {
             this.redirectTo(LOGIN);
         }
-    };
+    }
 
     redirectTo = to => {
         this.props.history.push(to);
@@ -44,22 +47,34 @@ class App extends Component {
     };
 
     render() {
+        const {authedUser, loading} = this.props;
         return (
             <div>
-                <Header user={getCurrentUser()} onLogout={this.logout}/>
-                <div className="app__header__padding"/>
-                <Route exact path={LOGIN} render={() => (
-                    <Login redirectTo={this.redirectTo}/>
-                )}/>
-                <Route exact path={SIGN_UP} render={() => (
-                    <SignUp/>
-                )}/>
-                <Route exact path={DASHBOARD} render={() => (
-                    <Dashboard/>
-                )}/>
+                {loading === true ? null :
+                    <div>
+                        <Header user={authedUser} onLogout={this.logout}/>
+                        <div className="app__header__padding"/>
+                        <Route exact path={LOGIN} render={() => (
+                            <Login redirectTo={this.redirectTo}/>
+                        )}/>
+                        <Route exact path={SIGN_UP} render={() => (
+                            <SignUp/>
+                        )}/>
+                        <Route exact path={DASHBOARD} render={() => (
+                            <Dashboard/>
+                        )}/>
+                    </div>
+                }
             </div>
         );
     }
 }
 
-export default withRouter(App);
+function mapStateToProps({authedUser}) {
+    return {
+        authedUser,
+        loading: authedUser === null,
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(App));

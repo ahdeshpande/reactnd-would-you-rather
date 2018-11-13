@@ -2,12 +2,14 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button/Button";
-import {getCurrentUser, userLogin} from "../utils/_DB";
+import {getCurrentUser, setAuthListener, userLogin} from "../utils/_DB";
 import {Link} from "react-router-dom";
 
 class Login extends Component {
     constructor(props) {
         super(props);
+
+        console.log(setAuthListener());
 
         this.state = {
             email: '',
@@ -30,7 +32,9 @@ class Login extends Component {
 
         userLogin(email, password)
             .then((res) => {
-                localStorage.setItem("user", JSON.stringify(res.user));
+                res.user.getIdToken().then(token => {
+                    localStorage.setItem("user", JSON.stringify(token));
+                });
                 if(getCurrentUser()) {
                     this.props.redirectTo('/dashboard');
                 }

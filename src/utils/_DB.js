@@ -1,4 +1,4 @@
-import {auth, firebase} from "./fire";
+import {auth, firebase, admin} from "./fire";
 
 export function userSignUp(email, password) {
     return auth.createUserWithEmailAndPassword(email, password);
@@ -6,6 +6,17 @@ export function userSignUp(email, password) {
 
 export function userLogin(email, password) {
     return auth.signInWithEmailAndPassword(email, password);
+}
+
+export function setAuthListener() {
+    auth.onAuthStateChanged(user => {
+        return user;
+    });
+}
+
+export function validateUser() {
+    const idToken = JSON.parse(localStorage.getItem('user'));
+    return admin.auth().verifyIdToken(idToken);
 }
 
 export function getCurrentUser() {

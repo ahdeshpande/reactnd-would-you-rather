@@ -5,6 +5,8 @@
   "dependencies": {
     "@material-ui/core": "^3.3.2",
     "firebase": "^5.5.7",
+    "firebase-admin": "^6.1.0",
+    "http2": "^3.3.7",
     "prop-types": "latest",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",

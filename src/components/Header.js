@@ -1,27 +1,36 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Button from "@material-ui/core/Button/Button";
+import {connect} from "react-redux";
 
-const Header = props => {
-    return (
-        <header className="app__header">
-            <div className="app__header_content">
-                <h2>Would you rather?</h2>
-                <div>
-                    {props.user &&
-                    <Button type="button" onClick={props.onLogout}>
-                        Logout
-                    </Button>
-                    }
+class Header extends Component {
+    render() {
+        const {authedUser, onLogout} = this.props;
+        return (
+            <header className="app__header">
+                <div className="app__header_content">
+                    <h2>Would you rather?</h2>
+                    <div>
+                        {authedUser &&
+                        <Button type="button" onClick={onLogout}>
+                            Logout
+                        </Button>
+                        }
+                    </div>
                 </div>
-            </div>
-        </header>
-    )
-};
+            </header>
+        );
+    }
+}
 
 Header.propTypes = {
-    user: PropTypes.object,
     onLogout: PropTypes.func,
 };
 
-export default Header;
+function mapStateToProps({authedUser}) {
+    return {
+        authedUser,
+    }
+}
+
+export default connect(mapStateToProps)(Header);

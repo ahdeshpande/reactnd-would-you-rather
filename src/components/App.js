@@ -27,7 +27,7 @@ class App extends Component {
     componentDidMount() {
         this.props.dispatch(handleInitialData());
         const {authedUser} = this.props;
-        if(authedUser) {
+        if (authedUser) {
             this.redirectTo(DASHBOARD);
         } else {
             this.redirectTo(LOGIN);
@@ -47,24 +47,22 @@ class App extends Component {
     };
 
     render() {
-        const {authedUser, loading} = this.props;
+        const {authedUser} = this.props;
         return (
             <div>
-                {loading === true ? null :
-                    <div>
-                        <Header user={authedUser} onLogout={this.logout}/>
-                        <div className="app__header__padding"/>
-                        <Route exact path={LOGIN} render={() => (
-                            <Login redirectTo={this.redirectTo}/>
-                        )}/>
-                        <Route exact path={SIGN_UP} render={() => (
-                            <SignUp/>
-                        )}/>
-                        <Route exact path={DASHBOARD} render={() => (
-                            <Dashboard/>
-                        )}/>
-                    </div>
-                }
+                <Header user={authedUser} onLogout={this.logout}/>
+
+                <div className="app__header__padding"/>
+                <Route exact path={LOGIN} render={() => (
+                    <Login redirectTo={this.redirectTo}/>
+                )}/>
+                <Route exact path={SIGN_UP} render={() => (
+                    <SignUp/>
+                )}/>
+                <Route exact path={DASHBOARD} render={() => (
+                    <Dashboard/>
+                )}/>
+
             </div>
         );
     }
@@ -73,7 +71,6 @@ class App extends Component {
 function mapStateToProps({authedUser}) {
     return {
         authedUser,
-        loading: authedUser === null,
     }
 }
 

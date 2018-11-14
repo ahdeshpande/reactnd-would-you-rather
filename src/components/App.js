@@ -4,15 +4,10 @@ import Login from "./Login";
 import Header from "./Header";
 import SignUp from "./SignUp";
 import Dashboard from './Dashboard';
-import {
-    getCurrentUser,
-    setAuthListener,
-    userSignOut,
-    validateUser
-} from "../utils/_DB";
 import {DASHBOARD, LANDING, LOGIN, SIGN_UP} from "../constants/routes";
 import {handleInitialData} from "../actions/shared";
 import {connect} from "react-redux";
+import {setAuthedUser} from "../actions/authedUser";
 
 class App extends Component {
 
@@ -39,11 +34,8 @@ class App extends Component {
     };
 
     logout = () => {
-        if (!userSignOut()) {
-            this.redirectTo(LANDING);
-        } else {
-            alert('Logout failed. Try again.');
-        }
+        this.props.dispatch(setAuthedUser(null));
+        this.redirectTo(LANDING);
     };
 
     render() {

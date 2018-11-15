@@ -4,6 +4,11 @@ import {withStyles} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography/Typography";
 import {connect} from "react-redux";
 import Question from "./Question";
+import RadioGroup from "@material-ui/core/RadioGroup/RadioGroup";
+import FormControlLabel
+    from "@material-ui/core/FormControlLabel/FormControlLabel";
+import Radio from "@material-ui/core/Radio/Radio";
+import FormControl from "@material-ui/core/FormControl/FormControl";
 
 
 const styles = theme => ({
@@ -17,22 +22,81 @@ const styles = theme => ({
         margin: '10px auto',
         maxWidth: '60%'
     },
-})
+    formControl: {
+        display: 'block',
+        margin: `${theme.spacing.unit * 3}px auto`,
+        maxWidth: '60%',
+    },
+    group: {
+        margin: `${theme.spacing.unit}px 0`,
+        flexDirection: 'row',
+    },
+    questionTypeLabels: {
+        width: '50%',
+        margin: 0,
+    }
+});
 
 class Dashboard extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            value: 'UQ',
+        };
 
     }
 
+    handleChange = event => {
+        this.setState({value: event.target.value});
+    };
+
     render() {
-        const {classes, questionIds, self} = this.props;
+        const {classes, questions, self} = this.props;
+
+        const filteredQuestions = Object.keys(questions).filter(id => {
+            if (this.state.value === 'AQ') {
+                if (self.answers[id] !== undefined) {
+                    return id;
+                }
+                return null;
+            } else {
+                if (self.answers[id] === undefined) {
+                    return id;
+                }
+                return null;
+            }
+        });
 
         return (
             <div>
                 <main className={classes.content}>
-                    {questionIds.map(id =>(
+                    <FormControl component="fieldset"
+                                 className={classes.formControl}>
+                        <RadioGroup
+                            aria-label="questionTypes"
+                            name="questionTypes"
+                            className={classes.group}
+                            value={this.state.value}
+                            onChange={this.handleChange}
+                        >
+                            <FormControlLabel
+                                className={classes.questionTypeLabels}
+                                value="UQ"
+                                control={<Radio color="primary"/>}
+                                label="Unanswered Questions"
+                                labelPlacement="start"
+                            />
+                            <FormControlLabel
+                                value="AQ"
+                                control={<Radio color="primary"/>}
+                                label="Answered Questions"
+                                labelPlacement="start"
+                            />
+                        </RadioGroup>
+                    </FormControl>
+
+                    {filteredQuestions.map(id => (
                         <li key={id} className={classes.list}>
                             <Question questionId={id}/>
                         </li>
@@ -47,9 +111,8 @@ function mapStateToProps({authedUser, questions, users}) {
     console.log(users);
     return {
         authedUser,
-        self: Object.keys(users)
-            .filter(id => id === authedUser),
-        questionIds: Object.keys(questions),
+        self: users[authedUser],
+        questions,
     }
 }
 

@@ -20,7 +20,7 @@ import Drawer from "@material-ui/core/Drawer/Drawer";
 import Divider from "@material-ui/core/Divider/Divider";
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import {DASHBOARD, LOGIN} from "../constants/routes";
+import {DASHBOARD, LEADERBOARD, LOGIN, NEW_QUESTION} from "../constants/routes";
 import {Link, withRouter} from "react-router-dom";
 import List from "@material-ui/core/List/List";
 import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
@@ -207,7 +207,7 @@ class Header extends Component {
                             <ListItemText primary="Home" />
                         </MenuItem>
                     </Link>
-                    <Link to={DASHBOARD} style={{ textDecoration: 'none' }}>
+                    <Link to={NEW_QUESTION} style={{ textDecoration: 'none' }}>
                         <MenuItem>
                             <ListItemIcon>
                                 <AddIcon/>
@@ -215,7 +215,7 @@ class Header extends Component {
                             <ListItemText primary="New Question" />
                         </MenuItem>
                     </Link>
-                    <Link to={DASHBOARD} style={{ textDecoration: 'none' }}>
+                    <Link to={LEADERBOARD} style={{ textDecoration: 'none' }}>
                         <MenuItem>
                             <ListItemIcon>
                                 <DashboardIcon/>

@@ -25,7 +25,7 @@ code {
 }
 
 .app__header__padding {
-    margin-top: 100px;
+    margin-top: 70px;
 }
 
 .app__header_content {
@@ -41,6 +41,16 @@ code {
     margin: auto;
     width: 60%;
     max-width: 1080px;
+}
+
+.container {
+    position: absolute;
+    top: 80px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: calc(100vh - 80px);
 }
 
 .tb__container {

@@ -4,13 +4,10 @@ import Login from "./Login";
 import Header from "./Header";
 import SignUp from "./SignUp";
 import Dashboard from './Dashboard';
-import {
-    getCurrentUser,
-    setAuthListener,
-    userSignOut,
-    validateUser
-} from "../utils/_DB";
 import {DASHBOARD, LANDING, LOGIN, SIGN_UP} from "../constants/routes";
+import {handleInitialData} from "../actions/shared";
+import {connect} from "react-redux";
+import {setAuthedUser} from "../actions/authedUser";
 
 class App extends Component {
 
@@ -22,44 +19,52 @@ class App extends Component {
         //     .catch(error => console.log(error))
     };
 
-    componentDidMount = () => {
-        // console.log(setAuthListener());
-        if (setAuthListener()) {
+    componentDidMount() {
+        this.props.dispatch(handleInitialData());
+        const {authedUser} = this.props;
+        if (authedUser) {
             this.redirectTo(DASHBOARD);
         } else {
             this.redirectTo(LOGIN);
         }
-    };
+    }
 
     redirectTo = to => {
         this.props.history.push(to);
     };
 
     logout = () => {
-        if (!userSignOut()) {
-            this.redirectTo(LANDING);
-        } else {
-            alert('Logout failed. Try again.');
-        }
+        this.props.dispatch(setAuthedUser(null));
+        this.redirectTo(LANDING);
     };
 
     render() {
+        const {authedUser} = this.props;
         return (
             <div>
-                <Header user={getCurrentUser()} onLogout={this.logout}/>
-                <div className="app__header__padding"/>
-                <Route exact path={LOGIN} render={() => (
-                    <Login redirectTo={this.redirectTo}/>
-                )}/>
-                <Route exact path={SIGN_UP} render={() => (
-                    <SignUp/>
-                )}/>
-                <Route exact path={DASHBOARD} render={() => (
-                    <Dashboard/>
-                )}/>
+                <Header user={authedUser} onLogout={this.logout}/>
+
+                <div className="container">
+                    <Route exact path={LOGIN} render={() => (
+                        <Login redirectTo={this.redirectTo}/>
+                    )}/>
+                    <Route exact path={SIGN_UP} render={() => (
+                        <SignUp/>
+                    )}/>
+                    <Route exact path={DASHBOARD} render={() => (
+                        <Dashboard/>
+                    )}/>
+                </div>
+
             </div>
         );
     }
 }
 
-export default withRouter(App);
+function mapStateToProps({authedUser}) {
+    return {
+        authedUser,
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(App));

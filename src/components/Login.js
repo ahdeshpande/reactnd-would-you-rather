@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
+import {connect} from "react-redux";
 import PropTypes from 'prop-types';
+import {Link} from "react-router-dom";
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button/Button";
-import {getCurrentUser, setAuthListener, userLogin} from "../utils/_DB";
-import {Link} from "react-router-dom";
+import {userLogin} from "../utils/_DB";
+import {DASHBOARD, SIGN_UP} from "../constants/routes";
+import {setAuthedUser} from "../actions/authedUser";
 
 class Login extends Component {
     constructor(props) {
         super(props);
-
-        console.log(setAuthListener());
 
         this.state = {
             email: '',
@@ -29,15 +30,12 @@ class Login extends Component {
         e.preventDefault();
 
         const {email, password} = this.state;
+        const {dispatch} = this.props;
 
         userLogin(email, password)
             .then((res) => {
-                res.user.getIdToken().then(token => {
-                    localStorage.setItem("user", JSON.stringify(token));
-                });
-                if(getCurrentUser()) {
-                    this.props.redirectTo('/dashboard');
-                }
+                dispatch(setAuthedUser(res.user.email));
+                this.props.redirectTo(DASHBOARD);
             })
             .catch(error => {
                 alert(error.message);
@@ -83,9 +81,9 @@ class Login extends Component {
                         </Button>
                         <br/>
                         <br/>
-                        Do not have an account? <Link to='/signup'>
-                            Sign up
-                        </Link>
+                        Do not have an account? <Link to={SIGN_UP}>
+                        Sign up
+                    </Link>
 
                     </div>
                 </form>
@@ -100,4 +98,4 @@ Login.propTypes = {
     redirectTo: PropTypes.func.isRequired,
 };
 
-export default Login;
+export default connect()(Login);

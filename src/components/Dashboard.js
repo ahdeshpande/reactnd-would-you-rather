@@ -1,22 +1,119 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
-import {setAuthListener} from "../utils/_DB";
+import {withStyles} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography/Typography";
+import {connect} from "react-redux";
+import Question from "./Question";
+import RadioGroup from "@material-ui/core/RadioGroup/RadioGroup";
+import FormControlLabel
+    from "@material-ui/core/FormControlLabel/FormControlLabel";
+import Radio from "@material-ui/core/Radio/Radio";
+import FormControl from "@material-ui/core/FormControl/FormControl";
+
+
+const styles = theme => ({
+    content: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        padding: theme.spacing.unit * 3,
+    },
+    list: {
+        listStyle: 'none',
+        margin: '10px auto',
+        maxWidth: '60%'
+    },
+    formControl: {
+        display: 'block',
+        margin: `${theme.spacing.unit * 3}px auto`,
+        maxWidth: '60%',
+    },
+    group: {
+        margin: `${theme.spacing.unit}px 0`,
+        flexDirection: 'row',
+    },
+    questionTypeLabels: {
+        width: '50%',
+        margin: 0,
+    }
+});
 
 class Dashboard extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
+        this.state = {
+            value: 'UQ',
+        };
 
-        console.log(setAuthListener());
     }
 
+    handleChange = event => {
+        this.setState({value: event.target.value});
+    };
+
     render() {
+        const {classes, questions, self} = this.props;
+
+        const filteredQuestions = Object.keys(questions).filter(id => {
+            if (this.state.value === 'AQ') {
+                if (self.answers[id] !== undefined) {
+                    return id;
+                }
+                return null;
+            } else {
+                if (self.answers[id] === undefined) {
+                    return id;
+                }
+                return null;
+            }
+        });
+
         return (
             <div>
-                <h1>Dashboard</h1>
+                <main className={classes.content}>
+                    <FormControl component="fieldset"
+                                 className={classes.formControl}>
+                        <RadioGroup
+                            aria-label="questionTypes"
+                            name="questionTypes"
+                            className={classes.group}
+                            value={this.state.value}
+                            onChange={this.handleChange}
+                        >
+                            <FormControlLabel
+                                className={classes.questionTypeLabels}
+                                value="UQ"
+                                control={<Radio color="primary"/>}
+                                label="Unanswered Questions"
+                                labelPlacement="start"
+                            />
+                            <FormControlLabel
+                                value="AQ"
+                                control={<Radio color="primary"/>}
+                                label="Answered Questions"
+                                labelPlacement="start"
+                            />
+                        </RadioGroup>
+                    </FormControl>
+
+                    {filteredQuestions.map(id => (
+                        <li key={id} className={classes.list}>
+                            <Question questionId={id}/>
+                        </li>
+                    ))}
+                </main>
             </div>
         )
     }
 }
 
-export default Dashboard;
+function mapStateToProps({authedUser, questions, users}) {
+    console.log(users);
+    return {
+        authedUser,
+        self: users[authedUser],
+        questions,
+    }
+}
+
+export default withStyles(styles, {withTheme: true})(connect(mapStateToProps)(Dashboard));

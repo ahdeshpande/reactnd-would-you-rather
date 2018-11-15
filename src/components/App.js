@@ -44,16 +44,17 @@ class App extends Component {
             <div>
                 <Header user={authedUser} onLogout={this.logout}/>
 
-                <div className="app__header__padding"/>
-                <Route exact path={LOGIN} render={() => (
-                    <Login redirectTo={this.redirectTo}/>
-                )}/>
-                <Route exact path={SIGN_UP} render={() => (
-                    <SignUp/>
-                )}/>
-                <Route exact path={DASHBOARD} render={() => (
-                    <Dashboard/>
-                )}/>
+                <div className="container">
+                    <Route exact path={LOGIN} render={() => (
+                        <Login redirectTo={this.redirectTo}/>
+                    )}/>
+                    <Route exact path={SIGN_UP} render={() => (
+                        <SignUp/>
+                    )}/>
+                    <Route exact path={DASHBOARD} render={() => (
+                        <Dashboard/>
+                    )}/>
+                </div>
 
             </div>
         );

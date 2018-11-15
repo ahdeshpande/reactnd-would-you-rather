@@ -128,7 +128,7 @@ class Header extends Component {
 
         return (
             <div>
-                <AppBar position="absolute"
+                <AppBar position="fixed"
                         className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>
                     <Toolbar disableGutters={!this.state.open}>
                         <IconButton color="inherit"

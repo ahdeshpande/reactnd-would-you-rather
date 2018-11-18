@@ -63,7 +63,7 @@ const styles = theme => ({
         display: 'none',
     },
     drawerPaper: {
-        position: 'relative',
+        position: 'fixed',
         whiteSpace: 'nowrap',
         width: drawerWidth,
         height: `100vh`,
@@ -199,28 +199,31 @@ class Header extends Component {
                         </IconButton>
                     </div>
                     <Divider/>
-                    <Link to={DASHBOARD} style={{ textDecoration: 'none' }}>
+                    <Link to={DASHBOARD} style={{textDecoration: 'none'}}
+                          onClick={this.handleDrawerClose}>
                         <MenuItem>
                             <ListItemIcon>
                                 <HomeIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="Home" />
+                            <ListItemText primary="Home"/>
                         </MenuItem>
                     </Link>
-                    <Link to={NEW_QUESTION} style={{ textDecoration: 'none' }}>
+                    <Link to={NEW_QUESTION} style={{textDecoration: 'none'}}
+                          onClick={this.handleDrawerClose}>
                         <MenuItem>
                             <ListItemIcon>
                                 <AddIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="New Question" />
+                            <ListItemText primary="New Question"/>
                         </MenuItem>
                     </Link>
-                    <Link to={LEADERBOARD} style={{ textDecoration: 'none' }}>
+                    <Link to={LEADERBOARD} style={{textDecoration: 'none'}}
+                          onClick={this.handleDrawerClose}>
                         <MenuItem>
                             <ListItemIcon>
                                 <DashboardIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="Leader Board" />
+                            <ListItemText primary="Leader Board"/>
                         </MenuItem>
                     </Link>
                 </Drawer>

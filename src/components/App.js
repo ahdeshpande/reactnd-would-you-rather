@@ -4,20 +4,19 @@ import Login from "./Login";
 import Header from "./Header";
 import SignUp from "./SignUp";
 import Dashboard from './Dashboard';
-import {DASHBOARD, LANDING, LOGIN, SIGN_UP} from "../constants/routes";
+import {
+    DASHBOARD,
+    LANDING,
+    LOGIN,
+    NEW_QUESTION,
+    SIGN_UP
+} from "../constants/routes";
 import {handleInitialData} from "../actions/shared";
 import {connect} from "react-redux";
 import {setAuthedUser} from "../actions/authedUser";
+import NewQuestion from "./NewQuestion";
 
 class App extends Component {
-
-    constructor(props) {
-        super(props);
-        // console.log(getCurrentUser());
-        // validateUser()
-        //     .then(res => console.log(res))
-        //     .catch(error => console.log(error))
-    };
 
     componentDidMount() {
         this.props.dispatch(handleInitialData());
@@ -53,6 +52,9 @@ class App extends Component {
                     )}/>
                     <Route exact path={DASHBOARD} render={() => (
                         <Dashboard/>
+                    )}/>
+                    <Route exact path={NEW_QUESTION} render={() => (
+                        <NewQuestion/>
                     )}/>
                 </div>
 

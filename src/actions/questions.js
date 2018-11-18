@@ -18,15 +18,15 @@ function addQuestion(question) {
     }
 }
 
-export function handleAddQuestion(optionA, optionB) {
+export function handleAddQuestion(optionOneText, optionTwoText) {
     return (dispatch, getState) => {
 
         const {authedUser} = getState();
         dispatch(showLoading());
 
         return _saveQuestion({
-            optionA,
-            optionB,
+            optionOneText,
+            optionTwoText,
             author: authedUser,
         })
             .then((question) => {

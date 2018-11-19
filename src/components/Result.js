@@ -101,7 +101,7 @@ class Result extends Component {
                                                 value={votesOptionA}/>
                                 <Typography variant="subtitle1"
                                             color="textSecondary">
-                                    {`${question.optionOne.votes.length} out of ${totalVotes}`}
+                                    {`${question.optionOne.votes.length} out of ${totalVotes}. (${votesOptionA}%)`}
                                 </Typography>
                             </div>
                         </Badge>
@@ -121,7 +121,7 @@ class Result extends Component {
                                                 value={votesOptionB}/>
                                 <Typography variant="subtitle1"
                                             color="textSecondary">
-                                    {`${question.optionTwo.votes.length} out of ${totalVotes}`}
+                                    {`${question.optionTwo.votes.length} out of ${totalVotes}. (${votesOptionB}%)`}
                                 </Typography>
                             </div>
                         </Badge>

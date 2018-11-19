@@ -30,7 +30,7 @@ export function userSignOut() {
 
 export function addUser(name, username, uid) {
     const usersRef = firebase.database().ref('users');
-    usersRef.child(uid).set({
+    return usersRef.child(uid).set({
         'answers': {},
         'id': uid,
         'name': name,
@@ -38,4 +38,9 @@ export function addUser(name, username, uid) {
         'avatarURL': '',
         'questions': [],
     });
+}
+
+export function addQuestion(question) {
+    const questionsRef = firebase.database().ref('questions');
+    return questionsRef.child(question.id).set(question);
 }

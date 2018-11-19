@@ -16,6 +16,7 @@ import {connect} from "react-redux";
 import {setAuthedUser} from "../actions/authedUser";
 import NewQuestion from "./NewQuestion";
 import Answer from "./Answer";
+import Result from "./Result";
 
 class App extends Component {
 
@@ -58,6 +59,7 @@ class App extends Component {
                         <NewQuestion/>
                     )}/>
                     <Route path="/question/:questionId" component={Answer}/>
+                    <Route path="/result/:questionId" component={Result}/>
                 </div>
 
             </div>

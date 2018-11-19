@@ -50,7 +50,7 @@ const styles = theme => ({
 class Question extends Component {
 
     render() {
-        const {classes, question, author,} = this.props;
+        const {classes, question, author, authedUser} = this.props;
 
         return (
             <Card className={classes.card}>
@@ -72,7 +72,7 @@ class Question extends Component {
                         </Typography>
                     </CardContent>
                     <div className={classes.controls}>
-                        <Link to={`/question/${question.id}`}
+                        <Link to={question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser) ? `/result/${question.id}` : `/question/${question.id}` }
                               className={classes.pollLink}>
                             <Button variant="outlined" color="primary"
                             className={classes.pollButton}>

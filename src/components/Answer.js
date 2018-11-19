@@ -80,7 +80,7 @@ class Answer extends Component {
         const {dispatch, question, history} = this.props;
 
         dispatch(handleAnswerQuestion(question.id, this.state.answer))
-            .then(() => history.push(DASHBOARD))
+            .then(() => history.push(`/result/${question.id}`))
             .catch(() => this.setState(() => ({submitSent: false})));
     };
 

@@ -15,6 +15,7 @@ import {handleInitialData} from "../actions/shared";
 import {connect} from "react-redux";
 import {setAuthedUser} from "../actions/authedUser";
 import NewQuestion from "./NewQuestion";
+import Answer from "./Answer";
 
 class App extends Component {
 
@@ -56,6 +57,7 @@ class App extends Component {
                     <Route exact path={NEW_QUESTION} render={() => (
                         <NewQuestion/>
                     )}/>
+                    <Route path="/question/:questionId" component={Answer}/>
                 </div>
 
             </div>

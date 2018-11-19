@@ -7,6 +7,8 @@ import CardContent from "@material-ui/core/CardContent/CardContent";
 import Typography from "@material-ui/core/Typography/Typography";
 import CardMedia from "@material-ui/core/CardMedia/CardMedia";
 import Button from "@material-ui/core/Button/Button";
+import {Link} from "react-router-dom";
+import {compose} from "recompose";
 
 const styles = theme => ({
     card: {
@@ -35,10 +37,14 @@ const styles = theme => ({
         paddingBottom: theme.spacing.unit,
         width: '100%',
     },
-    pollButton: {
+    pollLink: {
         display: 'block',
         width: '90%',
     },
+    pollButton : {
+        display: 'inline-block',
+        width: '100%',
+    }
 });
 
 class Question extends Component {
@@ -66,10 +72,13 @@ class Question extends Component {
                         </Typography>
                     </CardContent>
                     <div className={classes.controls}>
-                        <Button variant="outlined" color="primary"
-                                className={classes.pollButton}>
-                            View Poll
-                        </Button>
+                        <Link to={`/question/${question.id}`}
+                              className={classes.pollLink}>
+                            <Button variant="outlined" color="primary"
+                            className={classes.pollButton}>
+                                View Poll
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </Card>
@@ -91,4 +100,6 @@ function mapStateToProps({authedUser, questions, users}, {questionId}) {
     }
 }
 
-export default withStyles(styles, {withTheme: true})(connect(mapStateToProps)(Question));
+export default compose(withStyles(styles, {withTheme: true}),
+    connect(mapStateToProps),)
+    (Question);

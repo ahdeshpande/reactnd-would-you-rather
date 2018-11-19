@@ -42,20 +42,20 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: 'UQ',
+            answer: 'UQ',
         };
 
     }
 
     handleChange = event => {
-        this.setState({value: event.target.value});
+        this.setState({answer: event.target.value});
     };
 
     render() {
         const {classes, questions, self} = this.props;
 
         const filteredQuestions = Object.keys(questions).filter(id => {
-            if (this.state.value === 'AQ') {
+            if (this.state.answer === 'AQ') {
                 if (self.answers[id] !== undefined) {
                     return id;
                 }
@@ -77,7 +77,7 @@ class Dashboard extends Component {
                             aria-label="questionTypes"
                             name="questionTypes"
                             className={classes.group}
-                            value={this.state.value}
+                            value={this.state.answer}
                             onChange={this.handleChange}
                         >
                             <FormControlLabel
@@ -85,13 +85,14 @@ class Dashboard extends Component {
                                 value="UQ"
                                 control={<Radio color="primary"/>}
                                 label="Unanswered Questions"
-                                labelPlacement="start"
+                                labelPlacement="end"
                             />
                             <FormControlLabel
+                                className={classes.questionTypeLabels}
                                 value="AQ"
                                 control={<Radio color="primary"/>}
                                 label="Answered Questions"
-                                labelPlacement="start"
+                                labelPlacement="end"
                             />
                         </RadioGroup>
                     </FormControl>

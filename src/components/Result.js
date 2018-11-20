@@ -41,11 +41,11 @@ const styles = theme => ({
     },
     progressBar: {
         display: 'block',
-        width: '90%',
+        width: '100%',
         height: 20,
     },
     optionContainer: {
-        border: '1px solid #f3f3f3',
+        border: '1px solid #838383',
         padding: 10,
         width: '100%'
     },
@@ -53,6 +53,9 @@ const styles = theme => ({
         display: 'flex',
         maxWidth: '90%',
     },
+    myVote : {
+        backgroundColor: 'rgb(63, 81, 181, 0.15)',
+    }
 });
 
 class Result extends Component {
@@ -88,9 +91,10 @@ class Result extends Component {
                             Results:
                         </Typography>
 
-                        <Badge className={classes.option__wrap}
+                        <Badge className={`${classes.option__wrap} ${question.optionOne.votes.includes(authedUser) && classes.myVote}`}
                                badgeContent={question.optionOne.votes.includes(authedUser) && "You"}
-                               color={!question.optionOne.votes.includes(authedUser) ? '' : 'primary'}>
+                               color={!question.optionOne.votes.includes(authedUser) ? '' : 'primary'}
+                        >
                             <div className={classes.optionContainer}>
                                 <Typography variant="subtitle1"
                                             color="textSecondary">
@@ -108,9 +112,10 @@ class Result extends Component {
 
                         <br/>
 
-                        <Badge className={classes.option__wrap}
+                        <Badge className={`${classes.option__wrap} ${question.optionTwo.votes.includes(authedUser) && classes.myVote}`}
                                badgeContent={question.optionTwo.votes.includes(authedUser) && "You"}
-                               color={!question.optionTwo.votes.includes(authedUser) ? '' : 'primary'}>
+                               color={!question.optionTwo.votes.includes(authedUser) ? '' : 'primary'}
+                        >
                             <div className={classes.optionContainer}>
                                 <Typography variant="subtitle1"
                                             color="textSecondary">

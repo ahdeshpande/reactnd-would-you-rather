@@ -101,5 +101,4 @@ function mapStateToProps({authedUser, questions, users}, {questionId}) {
 }
 
 export default compose(withStyles(styles, {withTheme: true}),
-    connect(mapStateToProps),)
-    (Question);
+    connect(mapStateToProps),)(Question);

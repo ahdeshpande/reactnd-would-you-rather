@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {withStyles} from "@material-ui/core";
 import Card from "@material-ui/core/Card/Card";
@@ -13,7 +12,7 @@ import FormControlLabel
     from "@material-ui/core/FormControlLabel/FormControlLabel";
 import Radio from "@material-ui/core/Radio/Radio";
 import FormControl from "@material-ui/core/FormControl/FormControl";
-import {DASHBOARD, LOGIN} from "../constants/routes";
+import {LOGIN} from "../constants/routes";
 import {Redirect, withRouter} from "react-router-dom";
 import {handleAnswerQuestion} from "../actions/shared";
 
@@ -144,8 +143,6 @@ class Answer extends Component {
     }
 }
 
-Answer.propTypes = {};
-
 function mapStateToProps({authedUser, questions, users}, props) {
     const {questionId} = props.match.params;
     const question = questions[questionId];
@@ -158,5 +155,4 @@ function mapStateToProps({authedUser, questions, users}, props) {
 }
 
 export default withRouter(compose(withStyles(styles, {withTheme: true}),
-    connect(mapStateToProps),)
-(Answer));
+    connect(mapStateToProps),)(Answer));

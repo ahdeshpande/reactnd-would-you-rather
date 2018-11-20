@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button/Button";
 
@@ -128,7 +127,5 @@ class SignUp extends Component {
 
     }
 }
-
-SignUp.propTypes = {};
 
 export default SignUp;

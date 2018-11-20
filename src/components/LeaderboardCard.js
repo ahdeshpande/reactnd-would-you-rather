@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Redirect, withRouter} from "react-router-dom";
-import {LOGIN} from "../constants/routes";
+import {withRouter} from "react-router-dom";
 import Card from "@material-ui/core/Card/Card";
 import CardMedia from "@material-ui/core/CardMedia/CardMedia";
 import CardContent from "@material-ui/core/CardContent/CardContent";
@@ -10,7 +9,7 @@ import {connect} from "react-redux";
 import {compose} from "recompose";
 import {withStyles} from "@material-ui/core";
 
-const styles = theme => ({
+const styles = () => ({
     card: {
         display: 'flex',
         margin: '20px auto',
@@ -113,5 +112,4 @@ function mapStateToProps({users}, {id}) {
 }
 
 export default withRouter(compose(withStyles(styles, {withTheme: true}),
-    connect(mapStateToProps),)
-(LeaderboardCard));
+    connect(mapStateToProps),)(LeaderboardCard));

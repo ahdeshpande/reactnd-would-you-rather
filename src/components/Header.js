@@ -9,7 +9,6 @@ import IconButton from "@material-ui/core/IconButton/IconButton";
 import Typography from "@material-ui/core/Typography/Typography";
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
 import LoginIcon from '@material-ui/icons/Input';
 import HomeIcon from '@material-ui/icons/Home';
@@ -22,7 +21,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import {DASHBOARD, LEADERBOARD, LOGIN, NEW_QUESTION} from "../constants/routes";
 import {Link, withRouter} from "react-router-dom";
-import List from "@material-ui/core/List/List";
 import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 

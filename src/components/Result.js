@@ -1,23 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import classNames from 'classnames';
 import {Badge, LinearProgress, withStyles} from "@material-ui/core";
 import Card from "@material-ui/core/Card/Card";
 import CardContent from "@material-ui/core/CardContent/CardContent";
 import Typography from "@material-ui/core/Typography/Typography";
 import CardMedia from "@material-ui/core/CardMedia/CardMedia";
-import Button from "@material-ui/core/Button/Button";
 import {compose} from "recompose";
-import RadioGroup from "@material-ui/core/RadioGroup/RadioGroup";
-import FormControlLabel
-    from "@material-ui/core/FormControlLabel/FormControlLabel";
-import Radio from "@material-ui/core/Radio/Radio";
-import FormControl from "@material-ui/core/FormControl/FormControl";
-import {DASHBOARD, LOGIN} from "../constants/routes";
+import {LOGIN} from "../constants/routes";
 import {Redirect, withRouter} from "react-router-dom";
-import {handleAnswerQuestion} from "../actions/shared";
 
-const styles = theme => ({
+const styles = () => ({
     card: {
         display: 'flex',
         margin: '20px auto',
@@ -53,7 +45,7 @@ const styles = theme => ({
         display: 'flex',
         maxWidth: '90%',
     },
-    myVote : {
+    myVote: {
         backgroundColor: 'rgb(63, 81, 181, 0.15)',
     }
 });
@@ -91,9 +83,10 @@ class Result extends Component {
                             Results:
                         </Typography>
 
-                        <Badge className={`${classes.option__wrap} ${question.optionOne.votes.includes(authedUser) && classes.myVote}`}
-                               badgeContent={question.optionOne.votes.includes(authedUser) && "You"}
-                               color={!question.optionOne.votes.includes(authedUser) ? '' : 'primary'}
+                        <Badge
+                            className={`${classes.option__wrap} ${question.optionOne.votes.includes(authedUser) && classes.myVote}`}
+                            badgeContent={question.optionOne.votes.includes(authedUser) && "You"}
+                            color={!question.optionOne.votes.includes(authedUser) ? '' : 'primary'}
                         >
                             <div className={classes.optionContainer}>
                                 <Typography variant="subtitle1"
@@ -112,9 +105,10 @@ class Result extends Component {
 
                         <br/>
 
-                        <Badge className={`${classes.option__wrap} ${question.optionTwo.votes.includes(authedUser) && classes.myVote}`}
-                               badgeContent={question.optionTwo.votes.includes(authedUser) && "You"}
-                               color={!question.optionTwo.votes.includes(authedUser) ? '' : 'primary'}
+                        <Badge
+                            className={`${classes.option__wrap} ${question.optionTwo.votes.includes(authedUser) && classes.myVote}`}
+                            badgeContent={question.optionTwo.votes.includes(authedUser) && "You"}
+                            color={!question.optionTwo.votes.includes(authedUser) ? '' : 'primary'}
                         >
                             <div className={classes.optionContainer}>
                                 <Typography variant="subtitle1"
@@ -150,5 +144,4 @@ function mapStateToProps({authedUser, questions, users}, props) {
 }
 
 export default withRouter(compose(withStyles(styles, {withTheme: true}),
-    connect(mapStateToProps),)
-(Result));
+    connect(mapStateToProps),)(Result));

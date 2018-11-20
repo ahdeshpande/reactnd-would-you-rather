@@ -1,7 +1,5 @@
-import React, {Component, Fragment} from 'react';
-import PropTypes from 'prop-types';
+import React, {Component} from 'react';
 import {withStyles} from "@material-ui/core";
-import Typography from "@material-ui/core/Typography/Typography";
 import {connect} from "react-redux";
 import Question from "./Question";
 import RadioGroup from "@material-ui/core/RadioGroup/RadioGroup";

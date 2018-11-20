@@ -97,11 +97,13 @@ class Dashboard extends Component {
                         </RadioGroup>
                     </FormControl>
 
-                    {filteredQuestions.map(id => (
-                        <li key={id} className={classes.list}>
-                            <Question questionId={id}/>
-                        </li>
-                    ))}
+                    {filteredQuestions
+                        .sort((a, b) => (questions[b].timestamp - questions[a].timestamp))
+                        .map(id => (
+                            <li key={id} className={classes.list}>
+                                <Question questionId={id}/>
+                            </li>
+                        ))}
                 </main>
             </div>
         )
@@ -109,7 +111,6 @@ class Dashboard extends Component {
 }
 
 function mapStateToProps({authedUser, questions, users}) {
-    console.log(users);
     return {
         authedUser,
         self: users[authedUser],

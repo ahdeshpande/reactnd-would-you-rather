@@ -9,6 +9,8 @@ import FormControlLabel
     from "@material-ui/core/FormControlLabel/FormControlLabel";
 import Radio from "@material-ui/core/Radio/Radio";
 import FormControl from "@material-ui/core/FormControl/FormControl";
+import {Redirect} from "react-router-dom";
+import {LOGIN} from "../constants/routes";
 
 
 const styles = theme => ({
@@ -53,6 +55,10 @@ class Dashboard extends Component {
 
     render() {
         const {classes, questions, self} = this.props;
+
+        if (!self) {
+            return <Redirect to={LOGIN}/>
+        }
 
         const filteredQuestions = Object.keys(questions).filter(id => {
             if (this.state.answer === 'AQ') {

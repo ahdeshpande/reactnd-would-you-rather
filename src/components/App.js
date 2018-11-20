@@ -6,7 +6,7 @@ import SignUp from "./SignUp";
 import Dashboard from './Dashboard';
 import {
     DASHBOARD,
-    LANDING,
+    LANDING, LEADERBOARD,
     LOGIN,
     NEW_QUESTION,
     SIGN_UP
@@ -17,6 +17,7 @@ import {setAuthedUser} from "../actions/authedUser";
 import NewQuestion from "./NewQuestion";
 import Answer from "./Answer";
 import Result from "./Result";
+import LeaderBoard from "./LeaderBoard";
 
 class App extends Component {
 
@@ -57,6 +58,9 @@ class App extends Component {
                     )}/>
                     <Route exact path={NEW_QUESTION} render={() => (
                         <NewQuestion/>
+                    )}/>
+                    <Route exact path={LEADERBOARD} render={() => (
+                        <LeaderBoard/>
                     )}/>
                     <Route path="/question/:questionId" component={Answer}/>
                     <Route path="/result/:questionId" component={Result}/>

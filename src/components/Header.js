@@ -15,7 +15,7 @@ import LoginIcon from '@material-ui/icons/Input';
 import HomeIcon from '@material-ui/icons/Home';
 import AddIcon from '@material-ui/icons/Add';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import {withStyles} from "@material-ui/core";
+import {Avatar, withStyles} from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer/Drawer";
 import Divider from "@material-ui/core/Divider/Divider";
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -90,6 +90,9 @@ const styles = theme => ({
         padding: '0 8px',
         ...theme.mixins.toolbar,
     },
+    avatar: {
+        padding: 2,
+    },
 });
 
 class Header extends Component {
@@ -121,7 +124,7 @@ class Header extends Component {
     };
 
     render() {
-        const {onLogout, classes, theme, authedUser} = this.props;
+        const {onLogout, classes, theme, authedUser, user} = this.props;
 
         const {anchorEl} = this.state;
         const open = Boolean(anchorEl);
@@ -143,14 +146,18 @@ class Header extends Component {
                         </Typography>
                         {authedUser ? (
                                 <div>
-                                    <IconButton
+                                    <Button
                                         aria-owns={open ? 'menu-appbar' : null}
                                         aria-haspopup="true"
                                         onClick={this.handleMenu}
                                         color="inherit"
                                     >
-                                        <AccountCircle/>
-                                    </IconButton>
+                                        <Avatar
+                                            alt={authedUser}
+                                            src={user.avatarURL}
+                                            className={classes.avatar}
+                                        /> {authedUser}
+                                    </Button>
                                     <Menu
                                         id="menu-appbar"
                                         anchorEl={anchorEl}
@@ -236,9 +243,10 @@ Header.propTypes = {
     onLogout: PropTypes.func,
 };
 
-function mapStateToProps({authedUser}) {
+function mapStateToProps({authedUser, users}) {
     return {
         authedUser,
+        user: authedUser ? users[authedUser] : undefined,
     }
 }
 

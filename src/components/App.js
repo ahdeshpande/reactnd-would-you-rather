@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect, Route, withRouter} from 'react-router-dom';
+import {Redirect, Route, withRouter, Switch} from 'react-router-dom';
 import Login from "./Login";
 import Header from "./Header";
 import SignUp from "./SignUp";
@@ -8,7 +8,7 @@ import {
     DASHBOARD,
     LANDING, LEADERBOARD,
     LOGIN,
-    NEW_QUESTION,
+    NEW_QUESTION, PAGE404,
     SIGN_UP
 } from "../constants/routes";
 import {handleInitialData} from "../actions/shared";
@@ -18,6 +18,7 @@ import NewQuestion from "./NewQuestion";
 import Answer from "./Answer";
 import LeaderBoard from "./LeaderBoard";
 import LoadingBar from "react-redux-loading-bar";
+import PageNotFound from "./PageNotFound";
 
 class App extends Component {
 
@@ -56,22 +57,26 @@ class App extends Component {
                 {loadingBar.default ? <div className="overlay"/> : null}
                 <Header user={authedUser} onLogout={this.logout}/>
                 <div className="container">
-                    <Route exact path={LOGIN} render={() => (
-                        <Login redirectTo={this.redirectTo}/>
-                    )}/>
-                    <Route exact path={SIGN_UP} render={() => (
-                        <SignUp/>
-                    )}/>
-                    <Route exact path={DASHBOARD} render={() => (
-                        <Dashboard/>
-                    )}/>
-                    <Route exact path={NEW_QUESTION} render={() => (
-                        <NewQuestion/>
-                    )}/>
-                    <Route exact path={LEADERBOARD} render={() => (
-                        <LeaderBoard/>
-                    )}/>
-                    <Route path="/question/:questionId" component={Answer}/>
+                    <Switch>
+                        <Route exact path={LOGIN} render={() => (
+                            <Login redirectTo={this.redirectTo}/>
+                        )}/>
+                        <Route exact path={SIGN_UP} render={() => (
+                            <SignUp/>
+                        )}/>
+                        <Route exact path={DASHBOARD} render={() => (
+                            <Dashboard/>
+                        )}/>
+                        <Route exact path={NEW_QUESTION} render={() => (
+                            <NewQuestion/>
+                        )}/>
+                        <Route exact path={LEADERBOARD} render={() => (
+                            <LeaderBoard/>
+                        )}/>
+                        <Route path="/question/:questionId" component={Answer}/>
+                        <Route path={PAGE404} component={PageNotFound}/>
+                        <Route component={PageNotFound}/>
+                    </Switch>
                 </div>
 
             </div>

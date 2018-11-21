@@ -4,3 +4,4 @@ export const LANDING = '/';
 export const DASHBOARD = '/';
 export const NEW_QUESTION = '/add';
 export const LEADERBOARD = '/leaderboard';
+export const PAGE404 = '/404';

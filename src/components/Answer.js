@@ -12,7 +12,7 @@ import FormControlLabel
     from "@material-ui/core/FormControlLabel/FormControlLabel";
 import Radio from "@material-ui/core/Radio/Radio";
 import FormControl from "@material-ui/core/FormControl/FormControl";
-import {LOGIN} from "../constants/routes";
+import {LOGIN, PAGE404} from "../constants/routes";
 import {Redirect, withRouter} from "react-router-dom";
 import {handleAnswerQuestion} from "../actions/shared";
 
@@ -107,6 +107,10 @@ class Answer extends Component {
             return <Redirect to={{
                 pathname: LOGIN,
                 state: {redirectUrl: location.pathname}
+            }}/>
+        } else if (!question) {
+            return <Redirect to={{
+                pathname: PAGE404,
             }}/>
         }
 

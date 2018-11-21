@@ -56,7 +56,7 @@ const styles = theme => ({
         margin: `${theme.spacing.unit}px 0`,
         flexDirection: 'wrap',
     },
-        progressBar: {
+    progressBar: {
         display: 'block',
         width: '100%',
         height: 20,
@@ -96,7 +96,7 @@ class Answer extends Component {
         const {dispatch, question, history} = this.props;
 
         dispatch(handleAnswerQuestion(question.id, this.state.answer))
-            .then(() => history.push(`/result/${question.id}`))
+            .then(() => history.push(`/question/${question.id}`))
             .catch(() => this.setState(() => ({submitSent: false})));
     };
 
@@ -159,7 +159,7 @@ class Answer extends Component {
                                         </Typography>
                                         <LinearProgress variant="determinate"
                                                         className={classes.progressBar}
-                                                        value={votesOptionA}/>
+                                                        value={parseInt(votesOptionA)}/>
                                         <Typography variant="subtitle1"
                                                     color="textSecondary">
                                             {`${voteCountOne} out of ${totalVotes}. (${votesOptionA}%)`}
@@ -182,7 +182,7 @@ class Answer extends Component {
                                         </Typography>
                                         <LinearProgress variant="determinate"
                                                         className={classes.progressBar}
-                                                        value={votesOptionB}/>
+                                                        value={parseInt(votesOptionB)}/>
                                         <Typography variant="subtitle1"
                                                     color="textSecondary">
                                             {`${voteCountTwo} out of ${totalVotes}. (${votesOptionB}%)`}

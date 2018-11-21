@@ -36,7 +36,7 @@ export function handleAnswerQuestion(qId, answer) {
                     .then(({users, questions}) => {
                         dispatch(getQuestions(questions));
                         dispatch(getUsers(users));
-                        dispatch(hideLoading);
+                        dispatch(hideLoading());
                     });
             });
     }

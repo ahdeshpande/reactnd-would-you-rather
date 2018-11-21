@@ -150,7 +150,7 @@ function mapStateToProps({authedUser, questions, users}, props) {
     return {
         authedUser,
         question,
-        author: question && users[question.author]
+        author: question ? users[question.author] : undefined
     }
 }
 

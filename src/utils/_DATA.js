@@ -1,139 +1,33 @@
-let users = {
-    sarahedo: {
-        id: 'sarahedo',
-        name: 'Sarah Edo',
-        avatarURL: 'http://icongal.com//gallery/image/436953/avatar_hero_superhero_widow_black_avengers.png',
-        answers: {
-            "8xf0y6ziyjabvozdd253nd": 'optionOne',
-            "6ni6ok3ym7mf1p33lnez": 'optionOne',
-            "am8ehyc8byjqgar0jgpub9": 'optionTwo',
-            "loxhs1bqm25b708cmbf3g": 'optionTwo'
-        },
-        questions: ['8xf0y6ziyjabvozdd253nd', 'am8ehyc8byjqgar0jgpub9']
-    },
-    tylermcginnis: {
-        id: 'tylermcginnis',
-        name: 'Tyler McGinnis',
-        avatarURL: 'http://icongal.com/gallery/image/436998/s_iron_man_hero_avatar_man_superhero_iron_avengers.png',
-        answers: {
-            "vthrdm985a262al8qx3do": 'optionOne',
-            "xj352vofupe1dqz9emx13r": 'optionTwo',
-        },
-        questions: ['loxhs1bqm25b708cmbf3g', 'vthrdm985a262al8qx3do'],
-    },
-    'deshpande.abhiraj@gmail.com': {
-        id: 'deshpande.abhiraj@gmail.com',
-        name: 'Abhiraj Deshpande',
-        avatarURL: 'http://icongal.com/gallery/image/437025/avatar_hero_superhero_thor_avengers.png',
-        answers: {
-            "xj352vofupe1dqz9emx13r": 'optionOne',
-            "vthrdm985a262al8qx3do": 'optionTwo',
-            "6ni6ok3ym7mf1p33lnez": 'optionOne'
-        },
-        questions: ['6ni6ok3ym7mf1p33lnez', 'xj352vofupe1dqz9emx13r'],
-    }
-};
-
-let questions = {
-    "8xf0y6ziyjabvozdd253nd": {
-        id: '8xf0y6ziyjabvozdd253nd',
-        author: 'sarahedo',
-        timestamp: 1467166872634,
-        optionOne: {
-            votes: ['sarahedo'],
-            text: 'have horrible short term memory',
-        },
-        optionTwo: {
-            votes: [],
-            text: 'have horrible long term memory'
-        }
-    },
-    "6ni6ok3ym7mf1p33lnez": {
-        id: '6ni6ok3ym7mf1p33lnez',
-        author: 'deshpande.abhiraj@gmail.com',
-        timestamp: 1468479767190,
-        optionOne: {
-            votes: [],
-            text: 'become a superhero',
-        },
-        optionTwo: {
-            votes: ['deshpande.abhiraj@gmail.com', 'sarahedo'],
-            text: 'become a supervillian'
-        }
-    },
-    "am8ehyc8byjqgar0jgpub9": {
-        id: 'am8ehyc8byjqgar0jgpub9',
-        author: 'sarahedo',
-        timestamp: 1488579767190,
-        optionOne: {
-            votes: [],
-            text: 'be telekinetic',
-        },
-        optionTwo: {
-            votes: ['sarahedo'],
-            text: 'be telepathic'
-        }
-    },
-    "loxhs1bqm25b708cmbf3g": {
-        id: 'loxhs1bqm25b708cmbf3g',
-        author: 'tylermcginnis',
-        timestamp: 1482579767190,
-        optionOne: {
-            votes: [],
-            text: 'be a front-end developer',
-        },
-        optionTwo: {
-            votes: ['sarahedo'],
-            text: 'be a back-end developer'
-        }
-    },
-    "vthrdm985a262al8qx3do": {
-        id: 'vthrdm985a262al8qx3do',
-        author: 'tylermcginnis',
-        timestamp: 1489579767190,
-        optionOne: {
-            votes: ['tylermcginnis'],
-            text: 'find $50 yourself',
-        },
-        optionTwo: {
-            votes: ['deshpande.abhiraj@gmail.com'],
-            text: 'have your best friend find $500'
-        }
-    },
-    "xj352vofupe1dqz9emx13r": {
-        id: 'xj352vofupe1dqz9emx13r',
-        author: 'deshpande.abhiraj@gmail.com',
-        timestamp: 1493579767190,
-        optionOne: {
-            votes: ['deshpande.abhiraj@gmail.com'],
-            text: 'write JavaScript',
-        },
-        optionTwo: {
-            votes: ['tylermcginnis'],
-            text: 'write Swift'
-        }
-    },
-};
-
-function generateUID() {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-}
+import {getUsers, getQuestions} from "./_DB";
 
 export function _getUsers() {
-    return new Promise((res, rej) => {
-        setTimeout(() => res({...users}), 1000);
+    return new Promise((res, ) => {
+        getUsers()
+            .on('value', (snapshot) => {
+                res(snapshot.val());
+            }, (errorObject) => {
+                console.log("The read failed: " + errorObject.code);
+                res();
+            });
     });
 }
 
 export function _getQuestions() {
-    return new Promise((res, rej) => {
-        setTimeout(() => res({...questions}), 1000);
+    return new Promise((res, ) => {
+
+        getQuestions()
+            .on('value', (snapshot) => {
+                res(snapshot.val());
+            }, (errorObject) => {
+                console.log("The read failed: " + errorObject.code);
+                return {};
+            });
     });
 }
 
-function formatQuestion({optionOneText, optionTwoText, author}) {
+function formatQuestion({optionOneText, optionTwoText, author, qid}) {
     return {
-        id: generateUID(),
+        id: qid,
         timestamp: Date.now(),
         author,
         optionOne: {
@@ -148,55 +42,52 @@ function formatQuestion({optionOneText, optionTwoText, author}) {
 }
 
 export function _saveQuestion(question) {
-    return new Promise((res, rej) => {
+    return new Promise((res, ) => {
+
         const authedUser = question.author;
-        const formattedQuestion = formatQuestion(question);
+        const newQRef = getQuestions().push();
+        const authRef = getUsers().child(authedUser);
+        let authData = {};
+        authRef.on('value', (snapshot) => {
+            authData = snapshot.val();
+        });
 
-        setTimeout(() => {
-            questions = {
-                ...questions,
-                [formattedQuestion.id]: formattedQuestion
-            };
+        const formattedQuestion = formatQuestion({
+            ...question,
+            qid: newQRef.key
+        });
 
-            users = {
-                ...users,
-                [authedUser]: {
-                    ...users[authedUser],
-                    questions: users[authedUser].questions.concat([formattedQuestion.id])
-                }
-            };
-
-            res(formattedQuestion)
-        }, 1000);
+        newQRef.set(formattedQuestion)
+            .then(() => {
+                authRef.update({
+                    questions: authData && authData.questions.concat([newQRef.key])
+                });
+                res(formattedQuestion)
+            });
     });
 }
 
 export function _saveQuestionAnswer({authedUser, qid, answer}) {
-    return new Promise((res, rej) => {
-        setTimeout(() => {
-            users = {
-                ...users,
-                [authedUser]: {
-                    ...users[authedUser],
-                    answers: {
-                        ...users[authedUser].answers,
-                        [qid]: answer
-                    }
-                }
-            };
+    return new Promise((res, ) => {
 
-            questions = {
-                ...questions,
-                [qid]: {
-                    ...questions[qid],
-                    [answer]: {
-                        ...questions[qid][answer],
-                        votes: questions[qid][answer].votes.concat([authedUser])
-                    }
-                }
-            };
+        const authRef = getUsers().child(authedUser).child('answers');
 
-            res()
-        }, 500)
+        authRef.update({
+            [qid]: answer,
+        });
+
+        const qRef = getQuestions().child(qid).child(answer);
+        let qData = {};
+        qRef.on('value', (snapshot) => {
+            qData = snapshot.val();
+        });
+        qData['votes'] = qData.votes ? qData.votes : [];
+
+        qRef.update({
+            votes: qData.votes.concat([authedUser])
+        });
+
+        res();
+
     })
 }

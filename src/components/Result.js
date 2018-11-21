@@ -59,9 +59,12 @@ class Result extends Component {
             return <Redirect to={LOGIN}/>
         }
 
-        const totalVotes = question.optionOne.votes.length + question.optionTwo.votes.length;
-        const votesOptionA = totalVotes > 0 ? question.optionOne.votes.length / totalVotes * 100 : 0;
-        const votesOptionB = totalVotes > 0 ? question.optionTwo.votes.length / totalVotes * 100 : 0;
+        const voteCountOne = question.optionOne.votes ? question.optionOne.votes.length : 0;
+        const voteCountTwo = question.optionTwo.votes ? question.optionTwo.votes.length : 0;
+
+        const totalVotes =  voteCountOne + voteCountTwo;
+        const votesOptionA = totalVotes > 0 ? voteCountOne / totalVotes * 100 : 0;
+        const votesOptionB = totalVotes > 0 ? voteCountTwo / totalVotes * 100 : 0;
 
         return (
             <Card className={classes.card}>
@@ -84,9 +87,9 @@ class Result extends Component {
                         </Typography>
 
                         <Badge
-                            className={`${classes.option__wrap} ${question.optionOne.votes.includes(authedUser) && classes.myVote}`}
-                            badgeContent={question.optionOne.votes.includes(authedUser) && "You"}
-                            color={!question.optionOne.votes.includes(authedUser) ? '' : 'primary'}
+                            className={`${classes.option__wrap} ${question.optionOne.votes && question.optionOne.votes.includes(authedUser) && classes.myVote}`}
+                            badgeContent={(question.optionOne.votes && question.optionOne.votes.includes(authedUser)) ? "You" : ""}
+                            color={!(question.optionOne.votes && question.optionOne.votes.includes(authedUser)) ? 'default' : 'primary'}
                         >
                             <div className={classes.optionContainer}>
                                 <Typography variant="subtitle1"
@@ -98,7 +101,7 @@ class Result extends Component {
                                                 value={votesOptionA}/>
                                 <Typography variant="subtitle1"
                                             color="textSecondary">
-                                    {`${question.optionOne.votes.length} out of ${totalVotes}. (${votesOptionA}%)`}
+                                    {`${voteCountOne} out of ${totalVotes}. (${votesOptionA}%)`}
                                 </Typography>
                             </div>
                         </Badge>
@@ -106,9 +109,9 @@ class Result extends Component {
                         <br/>
 
                         <Badge
-                            className={`${classes.option__wrap} ${question.optionTwo.votes.includes(authedUser) && classes.myVote}`}
-                            badgeContent={question.optionTwo.votes.includes(authedUser) && "You"}
-                            color={!question.optionTwo.votes.includes(authedUser) ? '' : 'primary'}
+                            className={`${classes.option__wrap} ${question.optionTwo.votes && question.optionTwo.votes.includes(authedUser) && classes.myVote}`}
+                            badgeContent={(question.optionTwo.votes && question.optionTwo.votes.includes(authedUser)) ? "You" : ""}
+                            color={!(question.optionTwo.votes && question.optionTwo.votes.includes(authedUser)) ? 'default' : 'primary'}
                         >
                             <div className={classes.optionContainer}>
                                 <Typography variant="subtitle1"
@@ -120,7 +123,7 @@ class Result extends Component {
                                                 value={votesOptionB}/>
                                 <Typography variant="subtitle1"
                                             color="textSecondary">
-                                    {`${question.optionTwo.votes.length} out of ${totalVotes}. (${votesOptionB}%)`}
+                                    {`${voteCountTwo} out of ${totalVotes}. (${votesOptionB}%)`}
                                 </Typography>
                             </div>
                         </Badge>
@@ -139,7 +142,7 @@ function mapStateToProps({authedUser, questions, users}, props) {
     return {
         authedUser,
         question,
-        author: question && users[question.author]
+        author: question ? users[question.author] : undefined
     }
 }
 

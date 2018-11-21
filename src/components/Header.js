@@ -154,7 +154,7 @@ class Header extends Component {
                                             alt={authedUser}
                                             src={user.avatarURL}
                                             className={classes.avatar}
-                                        /> {authedUser}
+                                        /> {user.id}
                                     </Button>
                                     <Menu
                                         id="menu-appbar"
@@ -242,6 +242,7 @@ Header.propTypes = {
 };
 
 function mapStateToProps({authedUser, users}) {
+
     return {
         authedUser,
         user: authedUser ? users[authedUser] : undefined,

@@ -72,7 +72,7 @@ class Question extends Component {
                         </Typography>
                     </CardContent>
                     <div className={classes.controls}>
-                        <Link to={question.optionOne.votes.includes(authedUser) || question.optionTwo.votes.includes(authedUser) ? `/result/${question.id}` : `/question/${question.id}` }
+                        <Link to={(question.optionOne.votes && question.optionOne.votes.includes(authedUser)) || (question.optionTwo.votes && question.optionTwo.votes.includes(authedUser)) ? `/result/${question.id}` : `/question/${question.id}` }
                               className={classes.pollLink}>
                             <Button variant="outlined" color="primary"
                             className={classes.pollButton}>
@@ -96,7 +96,7 @@ function mapStateToProps({authedUser, questions, users}, {questionId}) {
     return {
         authedUser,
         question,
-        author: users[question.author]
+        author: question ? users[question.author] : undefined
     }
 }
 

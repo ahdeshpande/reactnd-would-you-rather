@@ -117,7 +117,7 @@ class Dashboard extends Component {
 function mapStateToProps({authedUser, questions, users}) {
     return {
         authedUser,
-        self: users[authedUser],
+        self: authedUser ? users[authedUser] : undefined,
         questions,
     }
 }

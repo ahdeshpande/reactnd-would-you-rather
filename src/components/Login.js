@@ -34,7 +34,7 @@ class Login extends Component {
 
         userLogin(email, password)
             .then((res) => {
-                dispatch(setAuthedUser(res.user.email));
+                dispatch(setAuthedUser(res.user.uid));
                 this.props.redirectTo(DASHBOARD);
             })
             .catch(error => {

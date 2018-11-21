@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button/Button";
 import {userLogin} from "../utils/_DB";
@@ -30,12 +30,12 @@ class Login extends Component {
         e.preventDefault();
 
         const {email, password} = this.state;
-        const {dispatch} = this.props;
+        const {dispatch, location} = this.props;
 
         userLogin(email, password)
             .then((res) => {
                 dispatch(setAuthedUser(res.user.uid));
-                this.props.redirectTo(DASHBOARD);
+                this.props.redirectTo(location.state ? location.state.redirectUrl : DASHBOARD);
             })
             .catch(error => {
                 alert(error.message);
@@ -98,4 +98,4 @@ Login.propTypes = {
     redirectTo: PropTypes.func.isRequired,
 };
 
-export default connect()(Login);
+export default withRouter(connect()(Login));

@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import {handleAddQuestion} from "../actions/questions";
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button/Button";
-import {DASHBOARD} from "../constants/routes";
-import {withRouter} from "react-router-dom";
+import {DASHBOARD, LOGIN} from "../constants/routes";
+import {Redirect, withRouter} from "react-router-dom";
 
 class NewQuestion extends Component {
 
@@ -33,6 +33,14 @@ class NewQuestion extends Component {
     render() {
 
         const {optionA, optionB} = this.state;
+        const {authedUser, location} = this.props;
+
+        if (!authedUser) {
+            return <Redirect to={{
+                pathname: LOGIN,
+                state: {redirectUrl: location.pathname}
+            }}/>
+        }
 
         return (
             <div className="outer__container">
@@ -83,4 +91,10 @@ class NewQuestion extends Component {
     }
 }
 
-export default withRouter(connect()(NewQuestion));
+function mapStateToProps({authedUser},) {
+    return {
+        authedUser,
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(NewQuestion));

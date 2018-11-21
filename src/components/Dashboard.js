@@ -7,7 +7,7 @@ import FormControlLabel
     from "@material-ui/core/FormControlLabel/FormControlLabel";
 import Radio from "@material-ui/core/Radio/Radio";
 import FormControl from "@material-ui/core/FormControl/FormControl";
-import {Redirect} from "react-router-dom";
+import {Redirect, withRouter} from "react-router-dom";
 import {LOGIN} from "../constants/routes";
 
 
@@ -52,10 +52,13 @@ class Dashboard extends Component {
     };
 
     render() {
-        const {classes, questions, self} = this.props;
+        const {classes, questions, self, location} = this.props;
 
         if (!self) {
-            return <Redirect to={LOGIN}/>
+            return <Redirect to={{
+                pathname: LOGIN,
+                state: {redirectUrl: location.pathname}
+            }}/>
         }
 
         const filteredQuestions = Object.keys(questions).filter(id => {
@@ -122,4 +125,4 @@ function mapStateToProps({authedUser, questions, users}) {
     }
 }
 
-export default withStyles(styles, {withTheme: true})(connect(mapStateToProps)(Dashboard));
+export default withRouter(withStyles(styles, {withTheme: true})(connect(mapStateToProps)(Dashboard)));

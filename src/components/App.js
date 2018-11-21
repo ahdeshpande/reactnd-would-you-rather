@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Route, withRouter} from 'react-router-dom';
+import {Redirect, Route, withRouter} from 'react-router-dom';
 import Login from "./Login";
 import Header from "./Header";
 import SignUp from "./SignUp";
@@ -28,7 +28,10 @@ class App extends Component {
         if (authedUser) {
             this.redirectTo(DASHBOARD);
         } else {
-            this.redirectTo(LOGIN);
+            return <Redirect to={{
+                pathname: LOGIN,
+                state: {redirectUrl: this.props.match.pathname}
+            }}/>
         }
     }
 

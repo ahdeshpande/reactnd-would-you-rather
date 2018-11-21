@@ -7,8 +7,9 @@ import CardContent from "@material-ui/core/CardContent/CardContent";
 import Typography from "@material-ui/core/Typography/Typography";
 import CardMedia from "@material-ui/core/CardMedia/CardMedia";
 import Button from "@material-ui/core/Button/Button";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import {compose} from "recompose";
+import {LOGIN} from "../constants/routes";
 
 const styles = theme => ({
     card: {
@@ -41,7 +42,7 @@ const styles = theme => ({
         display: 'block',
         width: '90%',
     },
-    pollButton : {
+    pollButton: {
         display: 'inline-block',
         width: '100%',
     }
@@ -50,7 +51,14 @@ const styles = theme => ({
 class Question extends Component {
 
     render() {
-        const {classes, question, author, authedUser} = this.props;
+        const {classes, question, author, authedUser, location} = this.props;
+
+        if (!authedUser) {
+            return <Redirect to={{
+                pathname: LOGIN,
+                state: {redirectUrl: location.pathname}
+            }}/>
+        }
 
         return (
             <Card className={classes.card}>
@@ -72,10 +80,11 @@ class Question extends Component {
                         </Typography>
                     </CardContent>
                     <div className={classes.controls}>
-                        <Link to={(question.optionOne.votes && question.optionOne.votes.includes(authedUser)) || (question.optionTwo.votes && question.optionTwo.votes.includes(authedUser)) ? `/result/${question.id}` : `/question/${question.id}` }
-                              className={classes.pollLink}>
+                        <Link
+                            to={(question.optionOne.votes && question.optionOne.votes.includes(authedUser)) || (question.optionTwo.votes && question.optionTwo.votes.includes(authedUser)) ? `/result/${question.id}` : `/question/${question.id}`}
+                            className={classes.pollLink}>
                             <Button variant="outlined" color="primary"
-                            className={classes.pollButton}>
+                                    className={classes.pollButton}>
                                 View Poll
                             </Button>
                         </Link>

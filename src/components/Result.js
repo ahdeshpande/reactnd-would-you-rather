@@ -53,10 +53,13 @@ const styles = () => ({
 class Result extends Component {
 
     render() {
-        const {classes, question, author, authedUser} = this.props;
+        const {classes, question, author, authedUser, location} = this.props;
 
         if (!authedUser) {
-            return <Redirect to={LOGIN}/>
+            return <Redirect to={{
+                pathname: LOGIN,
+                state: {redirectUrl: location.pathname}
+            }}/>
         }
 
         const voteCountOne = question.optionOne.votes ? question.optionOne.votes.length : 0;

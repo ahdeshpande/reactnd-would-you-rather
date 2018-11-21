@@ -16,7 +16,6 @@ import {connect} from "react-redux";
 import {setAuthedUser} from "../actions/authedUser";
 import NewQuestion from "./NewQuestion";
 import Answer from "./Answer";
-import Result from "./Result";
 import LeaderBoard from "./LeaderBoard";
 import LoadingBar from "react-redux-loading-bar";
 
@@ -73,7 +72,6 @@ class App extends Component {
                         <LeaderBoard/>
                     )}/>
                     <Route path="/question/:questionId" component={Answer}/>
-                    <Route path="/result/:questionId" component={Result}/>
                 </div>
 
             </div>

@@ -14,6 +14,8 @@ import {LOGIN} from "../constants/routes";
 const styles = theme => ({
     card: {
         display: 'flex',
+        margin: '20px auto',
+        maxWidth: '80%',
     },
     details: {
         display: 'flex',
@@ -81,7 +83,7 @@ class Question extends Component {
                     </CardContent>
                     <div className={classes.controls}>
                         <Link
-                            to={(question.optionOne.votes && question.optionOne.votes.includes(authedUser)) || (question.optionTwo.votes && question.optionTwo.votes.includes(authedUser)) ? `/result/${question.id}` : `/question/${question.id}`}
+                            to={`/question/${question.id}`}
                             className={classes.pollLink}>
                             <Button variant="outlined" color="primary"
                                     className={classes.pollButton}>

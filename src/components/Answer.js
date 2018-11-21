@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {withStyles} from "@material-ui/core";
+import {Badge, LinearProgress, withStyles} from "@material-ui/core";
 import Card from "@material-ui/core/Card/Card";
 import CardContent from "@material-ui/core/CardContent/CardContent";
 import Typography from "@material-ui/core/Typography/Typography";
@@ -56,6 +56,23 @@ const styles = theme => ({
         margin: `${theme.spacing.unit}px 0`,
         flexDirection: 'wrap',
     },
+        progressBar: {
+        display: 'block',
+        width: '100%',
+        height: 20,
+    },
+    optionContainer: {
+        border: '1px solid #838383',
+        padding: 10,
+        width: '100%'
+    },
+    option__wrap: {
+        display: 'flex',
+        maxWidth: '90%',
+    },
+    myVote: {
+        backgroundColor: 'rgb(63, 81, 181, 0.15)',
+    }
 });
 
 class Answer extends Component {
@@ -84,11 +101,22 @@ class Answer extends Component {
     };
 
     render() {
-        const {classes, question, author, authedUser} = this.props;
+        const {classes, question, author, authedUser, location} = this.props;
 
         if (!authedUser) {
-            return <Redirect to={LOGIN}/>
+            return <Redirect to={{
+                pathname: LOGIN,
+                state: {redirectUrl: location.pathname}
+            }}/>
         }
+
+        const voteCountOne = question.optionOne.votes ? question.optionOne.votes.length : 0;
+        const voteCountTwo = question.optionTwo.votes ? question.optionTwo.votes.length : 0;
+
+        const totalVotes = voteCountOne + voteCountTwo;
+        const votesOptionA = totalVotes > 0 ? (voteCountOne / totalVotes * 100).toFixed(2) : 0;
+        const votesOptionB = totalVotes > 0 ? (voteCountTwo / totalVotes * 100).toFixed(2) : 0;
+
 
         return (
             <Card className={classes.card}>
@@ -97,47 +125,113 @@ class Answer extends Component {
                     image={author.avatarURL}
                     title={`Avatar of ${author.name}`}
                 />
-                <div className={classes.details}>
-                    <CardContent className={classes.content}>
-                        <Typography component="h6" variant="h6">
-                            {author.name} asks:
-                        </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
-                            Would you rather . . .
-                        </Typography>
-                        <FormControl component="fieldset"
-                                     className={classes.formControl}>
-                            <RadioGroup
-                                aria-label="questionTypes"
-                                name="questionTypes"
-                                className={classes.group}
-                                value={this.state.answer}
-                                onChange={this.handleChange}
-                            >
-                                <FormControlLabel
-                                    value="optionOne"
-                                    control={<Radio color="primary"/>}
-                                    label={question.optionOne.text}
-                                    labelPlacement="end"
-                                />
-                                <FormControlLabel
-                                    value="optionTwo"
-                                    control={<Radio color="primary"/>}
-                                    label={question.optionTwo.text}
-                                    labelPlacement="end"
-                                />
-                            </RadioGroup>
-                        </FormControl>
-                    </CardContent>
-                    <div className={classes.controls}>
-                        <Button variant="contained" color="primary"
-                                disabled={this.state.submitSent || this.state.answer === ''}
-                                className={classes.pollButton}
-                                onClick={this.submitAnswer}>
-                            Answer
-                        </Button>
-                    </div>
-                </div>
+
+                {
+                    (question.optionOne.votes && question.optionOne.votes.includes(authedUser)) || (question.optionTwo.votes && question.optionTwo.votes.includes(authedUser))
+                        ?
+                        <div className={classes.details}>
+                            <CardContent className={classes.content}>
+                                <Typography component="h4" variant="h4">
+                                    Asked by {author.name}
+                                </Typography>
+
+                                <br/>
+
+                                <Typography component="h5" variant="h5"
+                                            color="textSecondary">
+                                    Results:
+                                </Typography>
+
+                                <Badge
+                                    className={`${classes.option__wrap} ${question.optionOne.votes && question.optionOne.votes.includes(authedUser) && classes.myVote}`}
+                                    badgeContent={(question.optionOne.votes && question.optionOne.votes.includes(authedUser)) ? "You" : ""}
+                                    color={!(question.optionOne.votes && question.optionOne.votes.includes(authedUser)) ? 'default' : 'primary'}
+                                >
+                                    <div className={classes.optionContainer}>
+                                        <Typography variant="subtitle1"
+                                                    color="textSecondary">
+                                            Would you
+                                            rather {question.optionOne.text}
+                                        </Typography>
+                                        <LinearProgress variant="determinate"
+                                                        className={classes.progressBar}
+                                                        value={votesOptionA}/>
+                                        <Typography variant="subtitle1"
+                                                    color="textSecondary">
+                                            {`${voteCountOne} out of ${totalVotes}. (${votesOptionA}%)`}
+                                        </Typography>
+                                    </div>
+                                </Badge>
+
+                                <br/>
+
+                                <Badge
+                                    className={`${classes.option__wrap} ${question.optionTwo.votes && question.optionTwo.votes.includes(authedUser) && classes.myVote}`}
+                                    badgeContent={(question.optionTwo.votes && question.optionTwo.votes.includes(authedUser)) ? "You" : ""}
+                                    color={!(question.optionTwo.votes && question.optionTwo.votes.includes(authedUser)) ? 'default' : 'primary'}
+                                >
+                                    <div className={classes.optionContainer}>
+                                        <Typography variant="subtitle1"
+                                                    color="textSecondary">
+                                            Would you
+                                            rather {question.optionTwo.text}
+                                        </Typography>
+                                        <LinearProgress variant="determinate"
+                                                        className={classes.progressBar}
+                                                        value={votesOptionB}/>
+                                        <Typography variant="subtitle1"
+                                                    color="textSecondary">
+                                            {`${voteCountTwo} out of ${totalVotes}. (${votesOptionB}%)`}
+                                        </Typography>
+                                    </div>
+                                </Badge>
+
+                            </CardContent>
+                        </div>
+                        :
+                        <div className={classes.details}>
+                            <CardContent className={classes.content}>
+                                <Typography component="h6" variant="h6">
+                                    {author.name} asks:
+                                </Typography>
+                                <Typography variant="subtitle1"
+                                            color="textSecondary">
+                                    Would you rather . . .
+                                </Typography>
+                                <FormControl component="fieldset"
+                                             className={classes.formControl}>
+                                    <RadioGroup
+                                        aria-label="questionTypes"
+                                        name="questionTypes"
+                                        className={classes.group}
+                                        value={this.state.answer}
+                                        onChange={this.handleChange}
+                                    >
+                                        <FormControlLabel
+                                            value="optionOne"
+                                            control={<Radio color="primary"/>}
+                                            label={question.optionOne.text}
+                                            labelPlacement="end"
+                                        />
+                                        <FormControlLabel
+                                            value="optionTwo"
+                                            control={<Radio color="primary"/>}
+                                            label={question.optionTwo.text}
+                                            labelPlacement="end"
+                                        />
+                                    </RadioGroup>
+                                </FormControl>
+                            </CardContent>
+                            <div className={classes.controls}>
+                                <Button variant="contained" color="primary"
+                                        disabled={this.state.submitSent || this.state.answer === ''}
+                                        className={classes.pollButton}
+                                        onClick={this.submitAnswer}>
+                                    Answer
+                                </Button>
+                            </div>
+                        </div>
+                }
             </Card>
         )
     }

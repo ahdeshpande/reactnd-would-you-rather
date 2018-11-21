@@ -90,3 +90,12 @@ code {
     display: flex;
     flex-grow: 1;
 }
+
+.overlay {
+    position: fixed;
+    height: 100%;
+    width: 100vw;
+    z-index: 999;
+    background: #fff;
+    opacity: 0.5;
+}

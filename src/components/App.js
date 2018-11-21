@@ -18,6 +18,7 @@ import NewQuestion from "./NewQuestion";
 import Answer from "./Answer";
 import Result from "./Result";
 import LeaderBoard from "./LeaderBoard";
+import LoadingBar from "react-redux-loading-bar";
 
 class App extends Component {
 
@@ -41,11 +42,17 @@ class App extends Component {
     };
 
     render() {
-        const {authedUser} = this.props;
+        const {authedUser, loadingBar} = this.props;
         return (
             <div>
+                <LoadingBar loading={1} style={{
+                    backgroundColor: '#ff2f39',
+                    height: '3px',
+                    opacity: '1',
+                    zIndex: '100000'
+                }}/>
+                {loadingBar.default ? <div className="overlay"/> : null}
                 <Header user={authedUser} onLogout={this.logout}/>
-
                 <div className="container">
                     <Route exact path={LOGIN} render={() => (
                         <Login redirectTo={this.redirectTo}/>
@@ -71,9 +78,10 @@ class App extends Component {
     }
 }
 
-function mapStateToProps({authedUser}) {
+function mapStateToProps({authedUser, loadingBar}) {
     return {
         authedUser,
+        loadingBar
     }
 }
 

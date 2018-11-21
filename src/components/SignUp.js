@@ -3,7 +3,8 @@ import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button/Button";
 
 import {addUser, userSignUp} from "../utils/_DB";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
+import {LOGIN} from "../constants/routes";
 
 class SignUp extends Component {
     constructor(props) {
@@ -11,7 +12,6 @@ class SignUp extends Component {
 
         this.state = {
             name: '',
-            username: '',
             email: '',
             password: '',
             confirm: '',
@@ -29,14 +29,15 @@ class SignUp extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
-        const {name, username, email, password, confirm} = this.state;
+        const {name, email, password, confirm} = this.state;
 
         if (password === confirm) {
             userSignUp(email, password)
                 .then(res => {
                     console.log(res);
                     const uid = res.user.uid;
-                    addUser(name, username, uid);
+                    addUser(name, email, uid);
+                    this.props.history.push(LOGIN);
                 })
                 .catch(error => {
                     alert(error.message);
@@ -62,16 +63,6 @@ class SignUp extends Component {
                             variant="outlined"
                             name="name"
                             value={this.state.name}
-                            onChange={this.handleChange}
-                        />
-                        <TextField
-                            required
-                            id="username"
-                            label="Username"
-                            margin="normal"
-                            variant="outlined"
-                            name="username"
-                            value={this.state.username}
                             onChange={this.handleChange}
                         />
                         <TextField
@@ -116,7 +107,7 @@ class SignUp extends Component {
                         </Button>
                         <br/>
                         <br/>
-                        Already have an account? <Link to='/login'>
+                        Already have an account? <Link to={LOGIN}>
                         Login
                     </Link>
                     </div>
@@ -128,4 +119,4 @@ class SignUp extends Component {
     }
 }
 
-export default SignUp;
+export default withRouter(SignUp);

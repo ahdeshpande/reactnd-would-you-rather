@@ -8,14 +8,13 @@ export function userLogin(email, password) {
     return auth.signInWithEmailAndPassword(email, password);
 }
 
-export function addUser(name, username, uid) {
+export function addUser(name, email, uid) {
     const usersRef = database.ref('users');
     return usersRef.child(uid).set({
         'answers': {},
-        'id': uid,
+        'id': email,
         'name': name,
-        'username': username,
-        'avatarURL': '',
+        'avatarURL': 'http://icongal.com/gallery/image/458203/avengers_comics.png',
         'questions': [],
     });
 }

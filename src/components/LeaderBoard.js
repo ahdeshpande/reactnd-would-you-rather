@@ -21,7 +21,7 @@ class LeaderBoard extends Component {
                     Leader Board
                 </Typography>
                 {rankings.map((u, rank) => (
-                    <LeaderboardCard id={u} key={u} rank={rank+1}/>
+                    <LeaderboardCard id={u} key={u} rank={rank + 1}/>
                 ))}
             </div>
         )
@@ -33,7 +33,12 @@ function mapStateToProps({authedUser, users}) {
     return {
         authedUser,
         rankings: Object.keys(users)
-            .sort((a, b) => (Object.keys(users[b].answers).length + users[b].questions.length) - (Object.keys(users[a].answers).length + users[a].questions.length))
+            .sort((a, b) => (
+                (users[b].answers ? Object.keys(users[b].answers).length : 0) +
+                (users[b].questions ? users[b].questions.length : 0)
+            ) - (
+                (users[a].answers ? Object.keys(users[a].answers).length : 0) +
+                (users[a].questions ? users[a].questions.length : 0)))
     }
 }
 

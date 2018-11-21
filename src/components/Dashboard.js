@@ -60,12 +60,12 @@ class Dashboard extends Component {
 
         const filteredQuestions = Object.keys(questions).filter(id => {
             if (this.state.answer === 'AQ') {
-                if (self.answers[id] !== undefined) {
+                if (self.answers && self.answers[id] !== undefined) {
                     return id;
                 }
                 return null;
             } else {
-                if (self.answers[id] === undefined) {
+                if (!self.answers || self.answers[id] === undefined) {
                     return id;
                 }
                 return null;

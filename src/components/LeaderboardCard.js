@@ -45,7 +45,7 @@ const styles = () => ({
         opacity: 0.3,
     },
     scoreHeader: {
-       padding: 10,
+        padding: 10,
     },
     scoreValue: {
         margin: 'auto 0',
@@ -73,11 +73,12 @@ class LeaderboardCard extends Component {
                         <br/>
                         <Typography variant="body1">
                             Answered
-                            Questions: {Object.keys(user.answers).length}
+                            Questions: {user.answers ? Object.keys(user.answers).length : 0}
                         </Typography>
                         <hr className={classes.faded}/>
                         <Typography variant="body1">
-                            Created Questions: {user.questions.length}
+                            Created
+                            Questions: {user.questions ? user.questions.length : 0}
                         </Typography>
                     </CardContent>
                 </div>
@@ -90,7 +91,8 @@ class LeaderboardCard extends Component {
                         <hr/>
                         <Typography variant="title"
                                     className={classes.scoreValue}>
-                            {Object.keys(user.answers).length + user.questions.length}
+                            {(user.answers ? Object.keys(user.answers).length : 0) +
+                            (user.questions ? user.questions.length : 0)}
                         </Typography>
                     </CardContent>
                 </div>

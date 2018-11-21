@@ -51,6 +51,7 @@ export function _saveQuestion(question) {
         authRef.on('value', (snapshot) => {
             authData = snapshot.val();
         });
+        authData['questions'] = authData.questions ? authData.questions : [];
 
         const formattedQuestion = formatQuestion({
             ...question,
@@ -60,7 +61,7 @@ export function _saveQuestion(question) {
         newQRef.set(formattedQuestion)
             .then(() => {
                 authRef.update({
-                    questions: authData && authData.questions.concat([newQRef.key])
+                    questions: authData.questions.concat([newQRef.key])
                 });
                 res(formattedQuestion)
             });

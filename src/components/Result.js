@@ -63,8 +63,8 @@ class Result extends Component {
         const voteCountTwo = question.optionTwo.votes ? question.optionTwo.votes.length : 0;
 
         const totalVotes =  voteCountOne + voteCountTwo;
-        const votesOptionA = totalVotes > 0 ? voteCountOne / totalVotes * 100 : 0;
-        const votesOptionB = totalVotes > 0 ? voteCountTwo / totalVotes * 100 : 0;
+        const votesOptionA = totalVotes > 0 ? (voteCountOne / totalVotes * 100).toFixed(2) : 0;
+        const votesOptionB = totalVotes > 0 ? (voteCountTwo / totalVotes * 100).toFixed(2) : 0;
 
         return (
             <Card className={classes.card}>

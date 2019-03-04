@@ -8,7 +8,7 @@ answer questions, see which questions they haven’t answered, see how other
 people have voted, post questions, and see the ranking of users on the 
 leaderboard.
 
-This project is live [here](https://wouldyou.herokuapp.com/).
+<!--- This project is live [here](https://wouldyou.herokuapp.com/). -->
 
 This project was bootstrapped with
 [Create React App](https://github.com/facebookincubator/create-react-app).
